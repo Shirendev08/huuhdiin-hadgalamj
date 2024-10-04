@@ -1,0 +1,44 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+@layer base {
+  :root {
+    --radius: 0.5rem;
+    background-color: #fdd8fa;
+  }
+}
+
+.underlined-text {
+  text-decoration: underline;
+  color: #6835BF;
+  font-weight: 700;
+  font-style: italic;
+}
+
+
+.default-text{
+  color: #6835BF;
+  font-size: 10px;
+}
+
+.default-big-text{
+  color: #6835BF;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+
+
+
+
