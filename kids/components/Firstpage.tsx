@@ -29,11 +29,11 @@ const Firstpage = () => {
             <a href="">
                 Алхам 2: www.ehalamj.mn сайт руу нэвтрэн, “Өрх” цэс дээр даран “Хүүхдийн мэдээлэл бүртгэх” товчийг дарна.
             </a>
-            <Image src='/images/zaavar1.jpg' alt='zaavar1' width={900} height={300} className='w-2/3 h-auto'/>
+            <Image src='/assets/zaavar1.jpg' alt='zaavar1' width={900} height={300} className='w-2/3 h-auto'/>
             <a href="">
             Алхам 3: Дараах байдлаар хүүхдийн мэдээлэл харагдах ба “Данс холбох” товчийг дарна.
             </a>
-            <Image src='/images/zaavar3.jpg' alt='zaavar1' width={900} height={300} className='w-2/3 h-auto'/>
+            <Image src='/assets/zaavar3.jpg' alt='zaavar1' width={900} height={300} className='w-2/3 h-auto'/>
             <a href="">
             Алхам 4: “Данс холбох” цэсийг дарж, Хүүхдийн мөнгөн тэтгэмж авах гэж буй Богд банкны дансыг сольж, шинэчлэнэ.
             </a> <br/>

@@ -9,7 +9,7 @@ const Header = () => {
 
    <div className="relative w-full mb-10">
   <Image
-    src='/images/back.png'
+    src='/assets/back.png'
     width={1400}
     height={200}
     alt='back'
@@ -31,7 +31,7 @@ const Header = () => {
   </div>
     <div className="absolute left-1/4  transform -translate-x-1/2 -translate-y-1/2">
     <Image
-      src='/images/profile.jpg'
+      src='/assets/profile.jpg'
       width={60}
       height={60}
       alt='profile'
