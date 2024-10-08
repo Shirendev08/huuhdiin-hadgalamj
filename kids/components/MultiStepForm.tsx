@@ -5,7 +5,7 @@ import 'react-phone-number-input/style.css'
 import SignatureCanvas from 'react-signature-canvas'
 import { Underline } from 'lucide-react';
 const MultiStepForm = () => {
-  const [step, setStep] = useState(8);
+  const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     firstName: '',
     register: '',
