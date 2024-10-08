@@ -3,7 +3,6 @@ import { useState, useRef } from 'react';
 import Image from 'next/image';
 import 'react-phone-number-input/style.css'
 import SignatureCanvas from 'react-signature-canvas'
-import { Underline } from 'lucide-react';
 const MultiStepForm = () => {
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
@@ -50,10 +49,10 @@ const MultiStepForm = () => {
     setStep(step - 1);
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    console.log('Form submitted:', formData);
-  };
+  // const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault();
+  //   console.log('Form submitted:', formData);
+  // };
   
   const sigCanvas = useRef<SignatureCanvas>(null);
 
@@ -157,14 +156,14 @@ const MultiStepForm = () => {
           <div className='text-[#6835BF]'>
             <div className=' font-bold'>
 
-          БОГД БАНКНЫ "ИТГЭЛ" хүүхдийн хадгаламж нээлгэх заавар.
+          БОГД БАНКНЫ `&quot;`ИТГЭЛ`&quot;` хүүхдийн хадгаламж нээлгэх заавар.
             </div>
             <br/>
 1. Та дараах мэдээллийг бөглөснөөр хадгаламжийн данс нээгдэнэ.  <br/>
 2. Таны хадгаламжийн данс нээгдсэний дараа БОГД БАНК-ны зүгээс хадгаламжийн дансны мэдээллийг тань -луу хүргүүлэх болно.  <br/> <br/>
 3. Тухайн хадгаламжийн дансны мэдээллийг ашиглан та Ehalamj.mn сайтад хүүхдийн мөнгөн тэтгэмж авах дансаа БОГД БАНКНЫ хадгаламжийн дансны дугаараар солино.  <br/> <br/>
 4. Ehalamj.mn -д хүүхдийн мөнгөн тэтгэмж авах дансаа сольсон Screenshot зургийг дараах link-р орж upload хийснээр таны сонгосон бэлэг  <br/> <br/>
-            <label htmlFor="register" className='text-[#6835BF] font-bold'>Эцэг эхийн регистрийн дугаар / Parent's Registration Number*</label> <br/> 
+            <label htmlFor="register" className='text-[#6835BF] font-bold'>Эцэг эхийн регистрийн дугаар / Parent`&apos;`s Registration Number*</label> <br/> 
     <input
               type="text"
               id="register"
@@ -188,7 +187,7 @@ const MultiStepForm = () => {
 <button type="button" onClick={prevStep}>Back</button>
 </div>
           <div>
-          <label htmlFor="childRegister" className='text-[#6835BF] font-bold'>Хүүхдийн регистрийн дугаар / Child's Registration Number
+          <label htmlFor="childRegister" className='text-[#6835BF] font-bold'>Хүүхдийн регистрийн дугаар / Child`&apos;`s Registration Number
           *</label> <br/> 
     <input
               type="text"
@@ -248,7 +247,7 @@ const MultiStepForm = () => {
 <button type="button" onClick={prevStep}>Back</button>
 </div>
             <div>
-            <label htmlFor="childRegister" className='text-[#6835BF] font-bold'>Хүүхдийн төрсний гэрчилгээ / Child's Birth Certificate
+            <label htmlFor="childRegister" className='text-[#6835BF] font-bold'>Хүүхдийн төрсний гэрчилгээ / Child`&apos;`s Birth Certificate
             </label> <br/> 
               <div className="flex items-center justify-center w-full">
     <label htmlFor="dropzone-file" className="flex flex-col items-center justify-center w-full h-64 border-2 border-purple-400 border-dashed rounded-lg cursor-pointer bg-[#fdd8fa]   dark:hover:border-gray-500 dark:hover:bg-gray-600">
