@@ -18,11 +18,11 @@ const Header = () => {
    <div className="absolute top-0 left-0 w-full flex justify-between px-1 space-x-1">
     
   </div>
-    <div className="absolute left-1/4  transform -translate-x-1/2 -translate-y-1/2">
+    <div className="absolute left-1/3  transform -translate-x-1/2 -translate-y-1/2">
     <Image
       src='/assets/profile.jpg'
-      width={120}
-      height={120}
+      width={95}
+      height={95}
       alt='profile'
       className='w-19 h-19 rounded-full object-cover shadow-lg'
     />
