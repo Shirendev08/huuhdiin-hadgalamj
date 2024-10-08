@@ -18,7 +18,7 @@ const MultiStepForm = () => {
   });
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement> | React.ChangeEvent<HTMLSelectElement>
   ) => {
     const { name, value, type } = e.target;
     
@@ -287,8 +287,8 @@ const MultiStepForm = () => {
           <SignatureCanvas
         ref={sigCanvas}
         penColor="black"
-        value={formData.message}
-        onChange={handleChange}
+        // value={formData.message}
+        // onChange={handleChange}
         canvasProps={{
           width: 500,
           height: 200,
