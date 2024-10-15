@@ -3,19 +3,41 @@ import { useState, useRef } from 'react';
 import Image from 'next/image';
 import 'react-phone-number-input/style.css'
 import SignatureCanvas from 'react-signature-canvas'
+
+interface FormData {
+  register: string;
+  childRegister: string;
+  email: string;
+  phone: string;
+  birthCertificate: File | null; // Allow File or null
+  message: string;
+  gift: string;
+  signature: string;
+
 const MultiStepForm = () => {
     const [step, setStep] = useState(1);
-    const [formData, setFormData] = useState({
-      firstName: '',
+    const sigCanvas = useRef<SignatureCanvas>(null);
+    const [formData, setFormData] = useState<FormData>({
       register: '',
       childRegister: '',
       email: '',
       phone: '',
-      birthCertificate: null,
+      birthCertificate: null, // Initialize as null
       message: '',
       gift: '',
+      signature: '',
     });
 
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const files = e.target.files; // Get the files from the event
+      if (files && files.length > 0) { // Check if files is not null and has at least one file
+        const file = files[0]; // Get the first file selected
+        setFormData({
+          ...formData,
+          birthCertificate: file, // Update birthCertificate with the selected file
+        });
+      }
+    };
     const handleChange = (
       e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement> | React.ChangeEvent<HTMLSelectElement>
     ) => {
@@ -49,12 +71,9 @@ const MultiStepForm = () => {
       setStep(step - 1);
     };
 
-  // const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-  //   e.preventDefault();
-  //   console.log('Form submitted:', formData);
-  // };
+    
   
-  const sigCanvas = useRef<SignatureCanvas>(null);
+  
 
   // Clear the signature pad when the button is clicked
   const clearSignature = () => {
@@ -62,22 +81,26 @@ const MultiStepForm = () => {
       sigCanvas.current.clear();
     }
   };
+  const handleSignatureSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault(); // Prevent default form submission behavior
+    const signatureDataUrl = sigCanvas.current?.getTrimmedCanvas().toDataURL('image/png');
+    
+    // Update formData with the signature data URL
+    setFormData({
+      ...formData,
+      signature: signatureDataUrl ?? '', // Fallback if signatureDataUrl is null
+    });
+
+    console.log(formData); // Log the form data
+    nextStep(6); // Call your next step logic here if needed
+  };
   console.log(formData)
   return (
 
     <div className=' mt-20 absolute sm:left-1/4 sm:right-1/4 left-5 right-5 text-[#6835BF]'>
       {step === 1 && (
         <form onSubmit={nextStep}>
-          {/* <div>
-            <label htmlFor="firstName">First Name:</label>
-            <input
-              type="text"
-              id="firstName"
-              name="firstName"
-              value={formData.firstName}
-              onChange={handleChange}
-            />
-          </div> */}
+        
           <div className='default-text '>
             <span className='underlined-text'>Хүүхдийн хадгаламж</span> <br />
             Хүүхдийн мөнгөн тэтгэмжээ Богд банкны жилийн 14.2%-ийн хүүтэй &quot;ИТГЭЛ&quot; Хүүхдийн хугацаатай хадгаламждаа хүлээн аваад дараах бэлгийн эзэн болоорой.
@@ -272,36 +295,43 @@ const MultiStepForm = () => {
       )}
 
       {step === 5 && (
-            <form onSubmit={nextStep}>
-               <div className='flex mb-10'>
-
-<Image src='/assets/leftarrow.png' width={25} height={25} alt='arrow' />
-<button type="button" onClick={prevStep}>Back</button>
-</div>
-            <div>
-            <label htmlFor="childRegister" className='text-[#6835BF] font-bold'>Хүүхдийн төрсний гэрчилгээ / Child&apos;s Birth Certificate
-            </label> <br/> 
-              <div className="flex items-center justify-center w-full">
-    <label htmlFor="dropzone-file" className="flex flex-col items-center justify-center w-full h-64 border-2 border-purple-400 border-dashed rounded-lg cursor-pointer bg-[#fdd8fa]   dark:hover:border-gray-500 dark:hover:bg-gray-600">
-        <div className="flex flex-col items-center justify-center pt-5 pb-6">
-            <svg className="w-8 h-8 mb-4 text-purple-300  dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
-                <path stroke="currentColor" stroke-linecap="round" className='bg-[#fdd8fa]' stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
-            </svg>
-            <p className="mb-2 text-sm text-purple-700 dark:text-purple-7000"><span className="font-semibold">Click to choose</span> a file or drag here</p>
-            <p className="text-xs text-purple-700 dark:text-purple-700">Size limit 10 MB</p>
-        </div>
-        <input id="dropzone-file" type="file" className="hidden" />
-    </label>
-</div> 
-             <br/>
+          <form onSubmit={nextStep}>
+          <div className='flex mb-10'>
+            <Image src='/assets/leftarrow.png' width={25} height={25} alt='arrow' />
+            <button type="button" onClick={prevStep}>Back</button>
+          </div>
+        
+          <div>
+            <label htmlFor="childRegister" className='text-[#6835BF] font-bold'>
+              Хүүхдийн төрсний гэрчилгээ / Child&apos;s Birth Certificate
+            </label>
+            <br />
+            
+            <div className="flex items-center justify-center w-full">
+              <label htmlFor="dropzone-file" className="flex flex-col items-center justify-center w-full h-64 border-2 border-purple-400 border-dashed rounded-lg cursor-pointer bg-[#fdd8fa] dark:hover:border-gray-500 dark:hover:bg-gray-600">
+                <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                  <svg className="w-8 h-8 mb-4 text-purple-300 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                    <path stroke="currentColor" strokeLinecap="round" className='bg-[#fdd8fa]' strokeLinejoin="round" strokeWidth="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
+                  </svg>
+                  <p className="mb-2 text-sm text-purple-700 dark:text-purple-7000"><span className="font-semibold">Click to choose</span> a file or drag here</p>
+                  <p className="text-xs text-purple-700 dark:text-purple-700">Size limit 10 MB</p>
+                </div>
+                <input id="dropzone-file" type="file" className='hidden' onChange={handleFileChange} accept="image/*"/>
+              </label>
             </div>
-            <button type="submit" className='mb-20 flex bg-[#FC8EF2] p-2 rounded-md text-[#6835FB] font-bold'>Next <Image src='/assets/arrowright.png' width={25} height={25} alt='arrow' /></button>
-          </form>
+            
+            <br />
+          </div>
+        
+          <button type="submit" className='mb-20 flex bg-[#FC8EF2] p-2 rounded-md text-[#6835FB] font-bold'>
+            Next <Image src='/assets/arrowright.png' width={25} height={25} alt='arrow' />
+          </button>
+        </form>
       )}
 
       {step === 6 && (
        
-         <form onSubmit={nextStep}>
+         <form onSubmit={handleSignatureSubmit}>
            <div className='flex mb-10'>
 
 <Image src='/assets/leftarrow.png' width={25} height={25} alt='arrow' />
@@ -309,17 +339,13 @@ const MultiStepForm = () => {
 </div>
          <div>
            <label htmlFor="message">Гарын Үсэг:</label>
-           {/* <textarea
-             id="message"
-             name="message"
-             value={formData.message}
-             onChange={handleChange}
-           ></textarea> */}
+   
           <SignatureCanvas
         ref={sigCanvas}
         penColor="black"
         // value={formData.message}
         // onChange={handleChange}
+
         canvasProps={{
           width: 500,
           height: 200,
