@@ -279,7 +279,7 @@ const MultiStepForm = () => {
 <button type="button" onClick={prevStep}>Back</button>
 </div>
             <div>
-            <label htmlFor="childRegister" className='text-[#6835BF] font-bold'>Хүүхдийн төрсний гэрчилгээ / Child`&apos;`s Birth Certificate
+            <label htmlFor="childRegister" className='text-[#6835BF] font-bold'>Хүүхдийн төрсний гэрчилгээ / Child&apos;s Birth Certificate
             </label> <br/> 
               <div className="flex items-center justify-center w-full">
     <label htmlFor="dropzone-file" className="flex flex-col items-center justify-center w-full h-64 border-2 border-purple-400 border-dashed rounded-lg cursor-pointer bg-[#fdd8fa]   dark:hover:border-gray-500 dark:hover:bg-gray-600">

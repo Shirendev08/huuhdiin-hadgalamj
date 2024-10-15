@@ -21,10 +21,10 @@ const Header = () => {
     <div className="absolute left-1/3  transform -translate-x-1/2 -translate-y-1/2">
     <Image
       src='/assets/profile.jpg'
-      width={95}
-      height={95}
+      width={75}
+      height={75}
       alt='profile'
-      className='w-19 h-19 rounded-full object-cover shadow-lg'
+      className='w-15 h-15 rounded-full object-cover shadow-lg'
     />
   </div>
 </div>
