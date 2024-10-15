@@ -4,50 +4,50 @@ import Image from 'next/image';
 import 'react-phone-number-input/style.css'
 import SignatureCanvas from 'react-signature-canvas'
 const MultiStepForm = () => {
-  const [step, setStep] = useState(1);
-  const [formData, setFormData] = useState({
-    firstName: '',
-    register: '',
-    childRegister: '',
-    email: '',
-    phone: '',
-    birthCertificate: null,
-    message: '',
-    gift: '',
-  });
+    const [step, setStep] = useState(1);
+    const [formData, setFormData] = useState({
+      firstName: '',
+      register: '',
+      childRegister: '',
+      email: '',
+      phone: '',
+      birthCertificate: null,
+      message: '',
+      gift: '',
+    });
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement> | React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    const { name, value, type } = e.target;
-    
-    // Check if the target is an HTMLInputElement and if the type is 'file'
-    if (e.target instanceof HTMLInputElement && type === 'file') {
-      const { files } = e.target; // Access files safely after confirming input type
-      if (files && files.length > 0) {
+    const handleChange = (
+      e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement> | React.ChangeEvent<HTMLSelectElement>
+    ) => {
+      const { name, value, type } = e.target;
+      
+      // Check if the target is an HTMLInputElement and if the type is 'file'
+      if (e.target instanceof HTMLInputElement && type === 'file') {
+        const { files } = e.target; // Access files safely after confirming input type
+        if (files && files.length > 0) {
+          setFormData((prevFormData) => ({
+            ...prevFormData,
+            [name]: files[0], // Update with the selected file
+          }));
+        }
+      } else {
+        // Handle the case for text input or textarea
         setFormData((prevFormData) => ({
           ...prevFormData,
-          [name]: files[0], // Update with the selected file
+          [name]: value, // Update other fields
         }));
       }
-    } else {
-      // Handle the case for text input or textarea
-      setFormData((prevFormData) => ({
-        ...prevFormData,
-        [name]: value, // Update other fields
-      }));
-    }
-  };
-  
+    };
+    
 
-  const nextStep = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setStep(step + 1);
-  };
+    const nextStep = (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      setStep(step + 1);
+    };
 
-  const prevStep = () => {
-    setStep(step - 1);
-  };
+    const prevStep = () => {
+      setStep(step - 1);
+    };
 
   // const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
   //   e.preventDefault();
@@ -62,7 +62,7 @@ const MultiStepForm = () => {
       sigCanvas.current.clear();
     }
   };
-
+  console.log(formData)
   return (
 
     <div className=' mt-20 absolute sm:left-1/4 sm:right-1/4 left-5 right-5 text-[#6835BF]'>
@@ -174,14 +174,12 @@ const MultiStepForm = () => {
               required
               onInvalid={(e) => {
                 const target = e.target as HTMLInputElement;
-                target.setCustomValidity(
-                  "Эцэг эхийн регистрийн дугаарыг оруулна уу"
-                );
+                target.setCustomValidity("Эцэг эхийн регистрийн дугаарыг оруулна уу");
               }}
-              // onInput={(e) => {
-              //   const target = e.target as HTMLInputElement; // Type assertion to HTMLInputElement
-              //   target.setCustomValidity(""); // Clear the custom error message
-              // }}
+              onInput={(e) => {
+                const target = e.target as HTMLInputElement; // Type assertion to HTMLInputElement
+                target.setCustomValidity(""); // Clear the custom error message on input
+              }}
               className="bg-gray-50 border border-gray-300 text-purple-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block h-8 p-2.5 dark:bg-purple-300 dark:focus:ring-blue-500 dark:focus:border-blue-500 mb-5"
             />
           </div>
@@ -214,6 +212,10 @@ const MultiStepForm = () => {
                   "Хүүхдийн регистрийн дугаарыг оруулна уу"
                 );
               }}
+              onInput={(e) => {
+                const target = e.target as HTMLInputElement; // Type assertion to HTMLInputElement
+                target.setCustomValidity(""); // Clear the custom error message on input
+              }}
               className="bg-gray-50 border border-gray-300 text-purple-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block h-8 p-2.5 dark:bg-purple-300 dark:focus:ring-blue-500 dark:focus:border-blue-500 mb-5"
             />
           </div>
@@ -239,12 +241,7 @@ const MultiStepForm = () => {
               onChange={handleChange}
               required
               pattern="[0-9]{8}"
-              onInvalid={(e) => {
-                const target = e.target as HTMLInputElement;
-                target.setCustomValidity(
-                  "Холбоо барих утасны дугаарыг оруулна уу"
-                );
-              }}
+              
               placeholder='Гар Утас / Mobile Number'
               className='bg-gray-50 border border-gray-300 text-purple-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block h-8 p-2.5 dark:bg-purple-300 dark:focus:ring-blue-500 dark:focus:border-blue-500 mb-5'
             />
@@ -261,6 +258,10 @@ const MultiStepForm = () => {
                 target.setCustomValidity(
                   "Цахим хаягаа оруулна уу"
                 );
+              }}
+              onInput={(e) => {
+                const target = e.target as HTMLInputElement; // Type assertion to HTMLInputElement
+                target.setCustomValidity(""); // Clear the custom error message on input
               }}
               className="bg-gray-50 border border-gray-300 text-purple-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block h-8 p-2.5 dark:bg-purple-300 dark:focus:ring-blue-500 dark:focus:border-blue-500 mb-5"
             />
