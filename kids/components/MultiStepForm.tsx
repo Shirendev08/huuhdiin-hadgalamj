@@ -13,6 +13,7 @@ interface FormData {
   message: string;
   gift: string;
   signature: string;
+}
 
 const MultiStepForm = () => {
     const [step, setStep] = useState(1);
