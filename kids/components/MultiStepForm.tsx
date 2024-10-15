@@ -80,7 +80,7 @@ const MultiStepForm = () => {
           </div> */}
           <div className='default-text '>
             <span className='underlined-text'>Хүүхдийн хадгаламж</span> <br />
-            Хүүхдийн мөнгөн тэтгэмжээ Богд банкны жилийн 14.2%-ийн хүүтэй “Итгэл” Хүүхдийн хугацаатай хадгаламждаа хүлээн аваад дараах бэлгийн эзэн болоорой.
+            Хүүхдийн мөнгөн тэтгэмжээ Богд банкны жилийн 14.2%-ийн хүүтэй &quot;ИТГЭЛ&quot; Хүүхдийн хугацаатай хадгаламждаа хүлээн аваад дараах бэлгийн эзэн болоорой.
             <br /><br />
             <span className='default-big-text'>
               Шинэ төрсөн нярайн хүүхдийн мөнгөний данс холбох алхмууд:
@@ -156,22 +156,33 @@ const MultiStepForm = () => {
           <div className='text-[#6835BF]'>
             <div className=' font-bold'>
 
-          БОГД БАНКНЫ `&quot;`ИТГЭЛ`&quot;` хүүхдийн хадгаламж нээлгэх заавар.
+          БОГД БАНКНЫ &quot;ИТГЭЛ&quot; хүүхдийн хадгаламж нээлгэх заавар.
             </div>
             <br/>
 1. Та дараах мэдээллийг бөглөснөөр хадгаламжийн данс нээгдэнэ.  <br/>
 2. Таны хадгаламжийн данс нээгдсэний дараа БОГД БАНК-ны зүгээс хадгаламжийн дансны мэдээллийг тань -луу хүргүүлэх болно.  <br/> <br/>
 3. Тухайн хадгаламжийн дансны мэдээллийг ашиглан та Ehalamj.mn сайтад хүүхдийн мөнгөн тэтгэмж авах дансаа БОГД БАНКНЫ хадгаламжийн дансны дугаараар солино.  <br/> <br/>
 4. Ehalamj.mn -д хүүхдийн мөнгөн тэтгэмж авах дансаа сольсон Screenshot зургийг дараах link-р орж upload хийснээр таны сонгосон бэлэг  <br/> <br/>
-            <label htmlFor="register" className='text-[#6835BF] font-bold'>Эцэг эхийн регистрийн дугаар / Parent`&apos;`s Registration Number*</label> <br/> 
+            <label htmlFor="register" className='text-[#6835BF] font-bold'>Эцэг эхийн регистрийн дугаар / Parent&apos;s Registration Number*</label> <br/> 
     <input
               type="text"
               id="register"
               name="register"
               value={formData.register}
               onChange={handleChange}
+              pattern="^[\u0400-\u04FF]{2}[0-9]{8}$"
               required
-              className="bg-gray-50 border border-gray-300 text-purple-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-1/3 h-8 p-2.5 dark:bg-purple-300 dark:focus:ring-blue-500 dark:focus:border-blue-500 mb-5"
+              onInvalid={(e) => {
+                const target = e.target as HTMLInputElement;
+                target.setCustomValidity(
+                  "Эцэг эхийн регистрийн дугаарыг оруулна уу"
+                );
+              }}
+              // onInput={(e) => {
+              //   const target = e.target as HTMLInputElement; // Type assertion to HTMLInputElement
+              //   target.setCustomValidity(""); // Clear the custom error message
+              // }}
+              className="bg-gray-50 border border-gray-300 text-purple-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block h-8 p-2.5 dark:bg-purple-300 dark:focus:ring-blue-500 dark:focus:border-blue-500 mb-5"
             />
           </div>
 
@@ -187,7 +198,7 @@ const MultiStepForm = () => {
 <button type="button" onClick={prevStep}>Back</button>
 </div>
           <div>
-          <label htmlFor="childRegister" className='text-[#6835BF] font-bold'>Хүүхдийн регистрийн дугаар / Child`&apos;`s Registration Number
+          <label htmlFor="childRegister" className='text-[#6835BF] font-bold'>Хүүхдийн регистрийн дугаар / Child&apos;s Registration Number
           *</label> <br/> 
     <input
               type="text"
@@ -195,8 +206,15 @@ const MultiStepForm = () => {
               name="childRegister"
               value={formData.childRegister}
               onChange={handleChange}
+              pattern="^[\u0400-\u04FF]{2}[0-9]{8}$"
               required
-              className="bg-gray-50 border border-gray-300 text-purple-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-1/3 h-8 p-2.5 dark:bg-purple-300 dark:focus:ring-blue-500 dark:focus:border-blue-500 mb-5"
+              onInvalid={(e) => {
+                const target = e.target as HTMLInputElement;
+                target.setCustomValidity(
+                  "Хүүхдийн регистрийн дугаарыг оруулна уу"
+                );
+              }}
+              className="bg-gray-50 border border-gray-300 text-purple-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block h-8 p-2.5 dark:bg-purple-300 dark:focus:ring-blue-500 dark:focus:border-blue-500 mb-5"
             />
           </div>
           
@@ -220,8 +238,15 @@ const MultiStepForm = () => {
               value={formData.phone}
               onChange={handleChange}
               required
+              pattern="[0-9]{8}"
+              onInvalid={(e) => {
+                const target = e.target as HTMLInputElement;
+                target.setCustomValidity(
+                  "Холбоо барих утасны дугаарыг оруулна уу"
+                );
+              }}
               placeholder='Гар Утас / Mobile Number'
-              className='bg-gray-50 border border-gray-300 text-purple-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-1/3 h-8 p-2.5 dark:bg-purple-300 dark:focus:ring-blue-500 dark:focus:border-blue-500 mb-5'
+              className='bg-gray-50 border border-gray-300 text-purple-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block h-8 p-2.5 dark:bg-purple-300 dark:focus:ring-blue-500 dark:focus:border-blue-500 mb-5'
             />
              <input
               type="email"
@@ -231,7 +256,13 @@ const MultiStepForm = () => {
               value={formData.email}
               onChange={handleChange}
               required
-              className="bg-gray-50 border border-gray-300 text-purple-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-1/3 h-8 p-2.5 dark:bg-purple-300 dark:focus:ring-blue-500 dark:focus:border-blue-500 mb-5"
+              onInvalid={(e) => {
+                const target = e.target as HTMLInputElement;
+                target.setCustomValidity(
+                  "Цахим хаягаа оруулна уу"
+                );
+              }}
+              className="bg-gray-50 border border-gray-300 text-purple-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block h-8 p-2.5 dark:bg-purple-300 dark:focus:ring-blue-500 dark:focus:border-blue-500 mb-5"
             />
            
           </div>
