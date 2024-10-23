@@ -28,7 +28,7 @@ const sendEmail = async (formData: FormData) => {
   // Email content
   const mailOptions = {
     from: process.env.SMTP_USER,
-    to: 'kalistagms@gmail.com',
+    to: 'rm808@bogdbank.com',
     subject: 'Huuhdiin hadgalamj huselt irlee.',
     html: `
       <h1>Form Data</h1>
