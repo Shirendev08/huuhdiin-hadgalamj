@@ -1,48 +1,54 @@
-"use server"
+'use server'
 import nodemailer from 'nodemailer';
 
-export default async function handler(req, res) {
-  if (req.method === 'POST') {
-    const { register, childRegister, email, phone, birthCertificate, gift, signature } = req.body;
-
-    // Configure the SMTP transporter
-    const transporter = nodemailer.createTransport({
-      host: 'smtp.example.com', // Replace with your SMTP server
-      port: 587, // Replace with your SMTP port
-      secure: false, // true for 465, false for other ports
-      auth: {
-        user: 'your-email@example.com', // Replace with your email
-        pass: 'your-email-password', // Replace with your email password
-      },
-    });
-
-    // Email options
-    const mailOptions = {
-      from: 'your-email@example.com', // Sender address
-      to: email, // Receiver email
-      subject: 'Form Submission', // Subject line
-      text: `
-        Register: ${register}
-        Child's Register: ${childRegister}
-        Email: ${email}
-        Phone: ${phone}
-        Birth Certificate: ${birthCertificate}
-        Gift: ${gift}
-        Signature: ${signature}
-      `, // Plain text body
-    };
-
-    try {
-      // Send the email
-      await transporter.sendMail(mailOptions);
-      res.status(200).json({ message: 'Email sent successfully!' });
-    } catch (error) {
-      console.error('Error sending email:', error);
-      res.status(500).json({ message: 'Error sending email' });
-    }
-  } else {
-    // Handle any other HTTP method
-    res.setHeader('Allow', ['POST']);
-    res.status(405).end(`Method ${req.method} Not Allowed`);
-  }
+interface FormData {
+  register: string;
+  childRegister: string;
+  email: string;
+  phone: string;
+  gift: string;
+  signature: string;
+  birthCertificate: string; // Change this to string to accept base64
 }
+
+const sendEmail = async (formData: FormData) => {
+  const { email, phone, register, childRegister, gift, signature, birthCertificate } = formData;
+
+  // Set up the transporter
+  const transporter = nodemailer.createTransport({
+    host: 'smtp.gmail.com',
+    port: 587,
+    secure: false,
+    auth: {
+      user: process.env.SMTP_USER,
+      pass: process.env.SMTP_PASS,
+    },
+  });
+
+  // Email content
+  const mailOptions = {
+    from: process.env.SMTP_USER,
+    to: 'kalistagms@gmail.com',
+    subject: 'Huuhdiin hadgalamj huselt irlee.',
+    html: `
+      <h1>Form Data</h1>
+      <p><strong>Эцэг эхийн регистер :</strong> ${register}</p>
+      <p><strong>Хүүхдийн регистер:</strong> ${childRegister}</p>
+      <p><strong>E-mail:</strong> ${email}</p>
+      <p><strong>Утасны дугаар:</strong> ${phone}</p>
+      <p><strong>Бэлэгний дугаар:</strong> ${gift}</p>
+      <p><strong>Гарын үсэг:</strong> <img src="${signature}" alt="signature" /></p>
+      <p><strong>Төрсний гэрчилгээ:</strong> ${birthCertificate ? `<img src="${birthCertificate}" alt="birth certificate" />` : 'No birth certificate provided.'}</p>
+    `,
+  };
+
+  try {
+    await transporter.sendMail(mailOptions);
+    console.log('Email sent successfully!');
+  } catch (error) {
+    console.error('Error sending email:', error);
+    throw new Error('Failed to send email');
+  }
+};
+
+export default sendEmail;

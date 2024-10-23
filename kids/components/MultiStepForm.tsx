@@ -3,7 +3,7 @@ import { useState, useRef } from 'react';
 import Image from 'next/image';
 import 'react-phone-number-input/style.css'
 import SignatureCanvas from 'react-signature-canvas'
-
+import handler from '@/lib/server/server';
 interface FormData {
   register: string;
   childRegister: string;
@@ -29,7 +29,7 @@ const MultiStepForm = () => {
 
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      const files = e.target.files; // Get the files from the event
+      const files = e.target.files; 
       if (files && files.length > 0) { // Check if files is not null and has at least one file
         const file = files[0]; // Get the first file selected
         setFormData({
@@ -99,36 +99,11 @@ const MultiStepForm = () => {
   console.log(formData)
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault(); // Prevent default form submission
+    const data = JSON.parse(JSON.stringify(formData))
+    await handler(data);
+      setStep(8); 
   
-    // Ensure all fields are filled out
-    if (!formData.register || !formData.childRegister || !formData.email || !formData.phone || !formData.birthCertificate || !formData.gift || !formData.signature) {
-      alert("Please complete all the fields.");
-      return;
-    }
   
-    try {
-      const response = await fetch('http://localhost:5000/send-email', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-  
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-  
-      const data = await response.text();
-      alert('Form submitted successfully! ' + data);
-      
-      // Move to the next step after successful submission
-      setStep(8); // This assumes step 8 is a confirmation step
-  
-    } catch (error) {
-      console.error('Error sending email:', error);
-      alert('There was an error sending the form data.');
-    }
   };
   return (
 
