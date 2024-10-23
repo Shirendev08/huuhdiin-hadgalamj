@@ -10,7 +10,6 @@ interface FormData {
   email: string;
   phone: string;
   birthCertificate: File | null; // Allow File or null
-  message: string;
   gift: string;
   signature: string;
 }
@@ -24,10 +23,10 @@ const MultiStepForm = () => {
       email: '',
       phone: '',
       birthCertificate: null, // Initialize as null
-      message: '',
       gift: '',
       signature: '',
     });
+
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const files = e.target.files; // Get the files from the event
@@ -85,17 +84,52 @@ const MultiStepForm = () => {
   const handleSignatureSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault(); // Prevent default form submission behavior
     const signatureDataUrl = sigCanvas.current?.getTrimmedCanvas().toDataURL('image/png');
-    
+  
     // Update formData with the signature data URL
     setFormData({
       ...formData,
       signature: signatureDataUrl ?? '', // Fallback if signatureDataUrl is null
     });
-
+  
     console.log(formData); // Log the form data
-    nextStep(6); // Call your next step logic here if needed
+  
+    // Move to step 7
+    setStep(7); // Directly jump to step 7 after signature submission
   };
   console.log(formData)
+  const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault(); // Prevent default form submission
+  
+    // Ensure all fields are filled out
+    if (!formData.register || !formData.childRegister || !formData.email || !formData.phone || !formData.birthCertificate || !formData.gift || !formData.signature) {
+      alert("Please complete all the fields.");
+      return;
+    }
+  
+    try {
+      const response = await fetch('http://localhost:5000/send-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+  
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+  
+      const data = await response.text();
+      alert('Form submitted successfully! ' + data);
+      
+      // Move to the next step after successful submission
+      setStep(8); // This assumes step 8 is a confirmation step
+  
+    } catch (error) {
+      console.error('Error sending email:', error);
+      alert('There was an error sending the form data.');
+    }
+  };
   return (
 
     <div className=' mt-20 absolute sm:left-1/4 sm:right-1/4 left-5 right-5 text-[#6835BF]'>
@@ -104,7 +138,7 @@ const MultiStepForm = () => {
         
           <div className='default-text '>
             <span className='underlined-text'>Хүүхдийн хадгаламж</span> <br />
-            Хүүхдийн мөнгөн тэтгэмжээ Богд банкны жилийн 14.2%-ийн хүүтэй &quot;ИТГЭЛ&quot; Хүүхдийн хугацаатай хадгаламждаа хүлээн аваад дараах бэлгийн эзэн болоорой.
+            Хүүхдийн мөнгөн тэтгэмжээ Богд банкны жилийн 14.2%-ийн хүүтэй &qИТuot;ГЭЛ&quot; Хүүхдийн хугацаатай хадгаламждаа хүлээн аваад дараах бэлгийн эзэн болоорой.
             <br /><br />
             <span className='default-big-text'>
               Шинэ төрсөн нярайн хүүхдийн мөнгөний данс холбох алхмууд:
@@ -376,7 +410,7 @@ const MultiStepForm = () => {
 
 {step === 7 && (
        
-       <form onSubmit={nextStep}>
+       <form onSubmit={handleFormSubmit}>
          <div className='flex mb-10'>
 
 <Image src='/assets/leftarrow.png' width={25} height={25} alt='arrow' />
