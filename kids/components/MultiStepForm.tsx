@@ -30,12 +30,13 @@ const MultiStepForm = () => {
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const files = e.target.files; 
-      if (files && files.length > 0) { // Check if files is not null and has at least one file
-        const file = files[0]; // Get the first file selected
-        setFormData({
-          ...formData,
-          birthCertificate: file, // Update birthCertificate with the selected file
-        });
+      if (files && files.length > 0) {
+        const file = files[0];
+        setFormData((prevFormData) => ({
+          ...prevFormData,
+          birthCertificate: file,
+        }));
+        console.log("Birth Certificate Updated:", file); // Log the selected file
       }
     };
     const handleChange = (
@@ -102,7 +103,7 @@ const MultiStepForm = () => {
     const data = JSON.parse(JSON.stringify(formData))
     await handler(data);
       setStep(8); 
-  
+    
   
   };
   return (
@@ -304,40 +305,40 @@ const MultiStepForm = () => {
         </form>
       )}
 
-      {step === 5 && (
-          <form onSubmit={nextStep}>
-          <div className='flex mb-10'>
-            <Image src='/assets/leftarrow.png' width={25} height={25} alt='arrow' />
-            <button type="button" onClick={prevStep}>Back</button>
+{step === 5 && (
+  <form onSubmit={nextStep}>
+    <div className='flex mb-10'>
+      <Image src='/assets/leftarrow.png' width={25} height={25} alt='arrow' />
+      <button type="button" onClick={prevStep}>Back</button>
+    </div>
+    
+    <div>
+      <label htmlFor="childRegister" className='text-[#6835BF] font-bold'>
+        Хүүхдийн төрсний гэрчилгээ / Child&apos;s Birth Certificate
+      </label>
+      <br />
+      
+      <div className="flex items-center justify-center w-full">
+        <label htmlFor="dropzone-file" className="flex flex-col items-center justify-center w-full h-64 border-2 border-purple-400 border-dashed rounded-lg cursor-pointer bg-[#fdd8fa] dark:hover:border-gray-500 dark:hover:bg-gray-600">
+          <div className="flex flex-col items-center justify-center pt-5 pb-6">
+            <svg className="w-8 h-8 mb-4 text-purple-300 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+              <path stroke="currentColor" strokeLinecap="round" className='bg-[#fdd8fa]' strokeLinejoin="round" strokeWidth="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
+            </svg>
+            <p className="mb-2 text-sm text-purple-700 dark:text-purple-7000"><span className="font-semibold">Click to choose</span> a file or drag here</p>
+            <p className="text-xs text-purple-700 dark:text-purple-700">Size limit 10 MB</p>
           </div>
-        
-          <div>
-            <label htmlFor="childRegister" className='text-[#6835BF] font-bold'>
-              Хүүхдийн төрсний гэрчилгээ / Child&apos;s Birth Certificate
-            </label>
-            <br />
-            
-            <div className="flex items-center justify-center w-full">
-              <label htmlFor="dropzone-file" className="flex flex-col items-center justify-center w-full h-64 border-2 border-purple-400 border-dashed rounded-lg cursor-pointer bg-[#fdd8fa] dark:hover:border-gray-500 dark:hover:bg-gray-600">
-                <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                  <svg className="w-8 h-8 mb-4 text-purple-300 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
-                    <path stroke="currentColor" strokeLinecap="round" className='bg-[#fdd8fa]' strokeLinejoin="round" strokeWidth="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
-                  </svg>
-                  <p className="mb-2 text-sm text-purple-700 dark:text-purple-7000"><span className="font-semibold">Click to choose</span> a file or drag here</p>
-                  <p className="text-xs text-purple-700 dark:text-purple-700">Size limit 10 MB</p>
-                </div>
-                <input id="dropzone-file" type="file" className='hidden' onChange={handleFileChange} accept="image/*"/>
-              </label>
-            </div>
-            
-            <br />
-          </div>
-        
-          <button type="submit" className='mb-20 flex bg-[#FC8EF2] p-2 rounded-md text-[#6835FB] font-bold'>
-            Next <Image src='/assets/arrowright.png' width={25} height={25} alt='arrow' />
-          </button>
-        </form>
-      )}
+          <input id="dropzone-file" type="file" className='hidden' onChange={handleFileChange} accept="image/*"/>
+        </label>
+      </div>
+      
+      <br />
+    </div>
+  
+    <button type="submit" className='mb-20 flex bg-[#FC8EF2] p-2 rounded-md text-[#6835FB] font-bold'>
+      Next <Image src='/assets/arrowright.png' width={25} height={25} alt='arrow' />
+    </button>
+  </form>
+)}
 
       {step === 6 && (
        
